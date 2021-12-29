@@ -1,5 +1,6 @@
 import React from "react";
 import { 
+    Button,
     FlatList, 
     SafeAreaView,
     StyleSheet,
@@ -41,6 +42,7 @@ export default class PostListScreen extends React.Component {
                     onRefresh = {this._onRefresh}
                     maxToRenderPerBatch = {5}
                     removeClippedSubviews = {true}
+                    ListEmptyComponent = {this._empyStateComponent}
                 />
             </SafeAreaView>
         )
@@ -114,13 +116,28 @@ export default class PostListScreen extends React.Component {
         })
     }
 
+    _empyStateComponent = () => {
+        return (
+            <Button 
+                title = "Try Again"
+                onPress = {this._onPressEmptyStateButton}
+                />
+        )
+    }
+
+    _onPressEmptyStateButton = () => {
+        this.setState({
+            refreshing: true
+        }, this._fetchPosts)
+    }
 }
 
 const styles = StyleSheet.create({
     safeAreaView: {
         flex: 1,
         alignSelf: "stretch",
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center"
     },
     flatList: {
         flex: 1
